@@ -1,13 +1,13 @@
 import express from "express";
 import mongoose from "mongoose";
 import exphbs from "express-handlebars";
-
 import bodyParser from "body-parser";
 import path from "path";
 import { fileURLToPath } from "url";
 import productModel from "./models/product.model.js";
 import productsRouter from "./routers/products.router.js";
 import cartsRouter from "./routers/carts.router.js";
+import sessionRouter from "./routers/session.router.js"
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,11 +22,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
+app.use("/api/session", sessionRouter)
 
 // crear productos en DB
 /* const main = async () => {
   await mongoose.connect("mongodb://localhost:27017", {
-    dbName: "Pre-Entrega",
+    dbName: "Desafio-5",
   });
   console.log("DB connected!");
 

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import productModel from "../models/product.model.js";
 
-mongoose.connect("mongodb://localhost:27017", { dbName: "Pre-Entrega" });
+mongoose.connect("mongodb://localhost:27017", { dbName: "Desafio-5" });
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Error de conexion a la DB"));

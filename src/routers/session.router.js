@@ -58,3 +58,5 @@ router.get("/logout", async (req, res) => {
     }
   });
 });
+
+export default router;
