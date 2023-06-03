@@ -1,0 +1,26 @@
+<a href="/api/products">Productos</a>
+<h1>Registrar producto</h1>
+
+<form action="/api/products" method="post">
+  Title:
+  <input type="text" name="title" placeholder="Titulo" required/>
+  <br />
+  Description:
+  <input type="text" name="description" placeholder="Descripcion" required/><br />
+  Price:
+  <input type="number" name="price" placeholder="Precio" required/><br />
+  Status: False
+  <input type="radio" name="status" value="false" />
+  True
+  <input type="radio" name="status" value="true" checked/><br />
+  Code:
+  <input type="text" name="code" placeholder="Codigo unico" required/><br />
+  Stock:
+  <input type="number" name="stock" placeholder="Cantidad de stock" required/><br />
+  Category:
+  <input type="text" name="category" placeholder="Categoria del producto" required/><br />
+  Thumbnail:
+  <input type="text" name="thumbnail" placeholder="Link de imagen" required/><br />
+
+  <input type="submit" value="Register" />
+</form>

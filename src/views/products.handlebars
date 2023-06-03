@@ -1,0 +1,48 @@
+<form action="/api/products" method="GET">
+  <input type="text" name="query" value="{{query}}" placeholder="Buscar..." />
+  <input type="hidden" name="limit" value="{{limit}}" />
+  <input type="hidden" name="sort" value="{{sort}}" />
+  <button type="submit">Buscar</button>
+  <a href="/api/products">Quitar filtros</a>
+  |
+  <a href="/api/carts">Ir al carrito</a>
+  |
+  <a href="/api/products/create">Crear producto</a>
+</form>
+
+<div>
+  {{#each products.docs}}
+    <div>
+      <h2>{{this.title}}</h2>
+      <p>{{this.description}}</p>
+      <p>{{this.category}}</p>
+      <h3>Precio: $ {{this.price}}</h3>
+
+      <!-- Botón para agregar producto al carrito -->
+      <form action="/api/carts/add-to-cart" method="POST">
+        <input type="hidden" name="productId" value="{{this._id}}" />
+        <button type="submit">Agregar al carrito</button>
+      </form>
+
+      <!-- Botón para eliminar producto del carrito -->
+      <form action="/api/carts/remove-from-cart" method="POST">
+        <input type="hidden" name="productId" value="{{this._id}}" />
+        <button type="submit">Eliminar del carrito</button>
+      </form>
+    </div>
+    <hr />
+  {{/each}}
+</div>
+
+
+{{#if products.hasPrevPage}}
+  <a
+    href="/api/products?page={{products.prevPage}}&limit={{limit}}&sort={{sort}}&query={{query}}"
+  >Página anterior</a>
+{{/if}}
+
+{{#if products.hasNextPage}}
+  <a
+    href="/api/products?page={{products.nextPage}}&limit={{limit}}&sort={{sort}}&query={{query}}"
+  >Página siguiente</a>
+{{/if}}
