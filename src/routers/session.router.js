@@ -13,7 +13,7 @@ router.post(
     failureRedirect: "/session/failureRegister",
   }),
   async (req, res) => {
-    res.redirect("/session/login");
+    res.redirect("/api/session/login");
   }
 );
 
@@ -40,11 +40,11 @@ router.post(
       email: req.user.email,
       age: req.user.age,
     };
-    res.redirect("/products");
+    res.redirect("/api/products");
   }
 );
 
-router.get("failLogin", async (req, res) => {
+router.get("/failLogin", async (req, res) => {
   res.send({ error: "Fail in login" });
 });
 
@@ -59,4 +59,5 @@ router.get("/logout", async (req, res) => {
   });
 });
 
-export default router;
+
+export default router

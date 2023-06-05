@@ -24,12 +24,14 @@ const initializePassport = () => {
             return done(null, false);
           }
 
+          const hashedPassword = createHash(password);
+
           const newUser = {
             first_name,
             last_name,
             age,
             email,
-            passport: createHash(password),
+            password: hashedPassword,
           };
 
           const result = await UserModel.create(newUser);
@@ -52,12 +54,14 @@ const initializePassport = () => {
           const user = await UserModel.findOne({ email: username });
           if (!user) {
             console.log("El usuario ingresado no existe");
-            return null, user;
+            return done(null, false);
           }
 
           if (!isValidPassword(user, password)) {
-            return done(null, user);
+            return done(null, false);
           }
+
+          return done(null, user);
         } catch (err) {
           done("Error" + err);
         }
@@ -66,12 +70,12 @@ const initializePassport = () => {
   );
 
   passport.serializeUser((user, done) => {
-    done(null, user._id);
+    return done(null, user._id);
   });
 
   passport.deserializeUser(async (id, done) => {
     const user = await UserModel.findById(id);
-    return null, user;
+    return done(null, user);
   });
 };
 

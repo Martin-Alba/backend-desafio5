@@ -1,5 +1,7 @@
 import express from "express";
+import session from "express-session";
 import mongoose from "mongoose";
+import MongoStore from "connect-mongo";
 import exphbs from "express-handlebars";
 import bodyParser from "body-parser";
 import path from "path";
@@ -7,7 +9,9 @@ import { fileURLToPath } from "url";
 import productModel from "./models/product.model.js";
 import productsRouter from "./routers/products.router.js";
 import cartsRouter from "./routers/carts.router.js";
-import sessionRouter from "./routers/session.router.js"
+import sessionRouter from "./routers/session.router.js";
+import initializePassport from "./config/passport.config.js"
+import passport from "passport";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,9 +24,35 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "handlebars");
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/api/products", productsRouter);
-app.use("/api/carts", cartsRouter);
-app.use("/api/session", sessionRouter)
+const MONGO_URI = "mongodb://localhost:27017";
+const MONGO_DB_NAME = "Desafio-5";
+
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl: MONGO_URI,
+      dbName: MONGO_DB_NAME,
+    }),
+    secret: "Chris-P-Bacon",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
+
+const ensureAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/api/session/login");
+};
+
+app.use("/api/products", ensureAuthenticated, productsRouter);
+app.use("/api/carts", ensureAuthenticated, cartsRouter);
+app.use("/api/session", sessionRouter);
 
 // crear productos en DB
 /* const main = async () => {
@@ -160,5 +190,18 @@ app.use("/api/session", sessionRouter)
 };
 main() */
 
-mongoose.connect("mongodb://localhost:27017", { dbName: "Desafio-5" });
+/* mongoose.connect("mongodb://localhost:27017", { dbName: "Desafio-5" });
+app.listen(8080, () => console.log("Server Up!")); */
+
+mongoose
+  .connect(MONGO_URI, {
+    dbName: MONGO_DB_NAME,
+  })
+  .then(() => {
+    console.log("DB connected!");
+  })
+  .catch((err) => {
+    console.error("DB connection error:", err);
+  });
+
 app.listen(8080, () => console.log("Server Up!"));
