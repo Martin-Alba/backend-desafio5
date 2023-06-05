@@ -5,6 +5,10 @@
 </head>
 <body>
   <a href="/api/products">Productos</a>
+<form action="/api/session/logout" method="GET">
+  <button type="submit">Cerrar sesión</button>
+</form>
+
   <h1>Carrito de compras</h1>
   {{#each carts}}
   <h2>Carrito {{_id}}</h2>

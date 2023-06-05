@@ -10,6 +10,10 @@
   <a href="/api/products/create">Crear producto</a>
 </form>
 
+<form action="/api/session/logout" method="GET">
+  <button type="submit">Cerrar sesión</button>
+</form>
+
 <div>
   {{#each products.docs}}
     <div>

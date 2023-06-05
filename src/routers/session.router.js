@@ -54,7 +54,7 @@ router.get("/logout", async (req, res) => {
       console.error(err);
       res.status(500).render("errors/base", { error: err });
     } else {
-      res.redirect("/session/login");
+      res.redirect("/api/session/login");
     }
   });
 });
