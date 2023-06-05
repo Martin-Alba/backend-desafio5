@@ -5,6 +5,7 @@ import productManager from "../manager/products.manager.js";
 const router = Router();
 
 router.get("/", async (req, res) => {
+  const user = req.user;
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
   const sort = req.query.sort === "desc" ? -1 : 1;
@@ -39,6 +40,8 @@ router.get("/", async (req, res) => {
       sort,
       prevPage,
       nextPage,
+      userEmail: user.email,
+      userRole: user.role,
     };
 
     Object.assign(data, req.query);

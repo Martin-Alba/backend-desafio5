@@ -11,6 +11,8 @@
 </form>
 
 <form action="/api/session/logout" method="GET">
+  <h1>Bienvenido, {{userEmail}}!</h1>
+  <p>Rol: {{userRole}}</p>
   <button type="submit">Cerrar sesión</button>
 </form>
 
@@ -37,7 +39,6 @@
     <hr />
   {{/each}}
 </div>
-
 
 {{#if products.hasPrevPage}}
   <a
